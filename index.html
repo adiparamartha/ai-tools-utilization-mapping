@@ -476,7 +476,7 @@
 
   async function fetchAISuggestion(taskText){
     const controller = new AbortController();
-    const timer = setTimeout(()=> controller.abort(), 9000);
+    const timer = setTimeout(()=> controller.abort(), 16000);
     try{
       const res = await fetch('/api/suggest-tool', {
         method:'POST',

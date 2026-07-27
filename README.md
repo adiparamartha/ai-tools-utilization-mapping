@@ -40,5 +40,5 @@ To have it call the actual Gemini API instead:
    browser); if the call ever fails for any reason, it silently falls back to the
    local heuristic so the feature never breaks.
 
-Optionally set `GEMINI_MODEL` too (defaults to `gemini-2.0-flash`) to pick a
+Optionally set `GEMINI_MODEL` too (defaults to `gemini-flash-latest`) to pick a
 different Gemini model.

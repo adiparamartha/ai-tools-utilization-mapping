@@ -18,16 +18,12 @@ export default async function handler(req, res) {
     return;
   }
 
-  const model = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
-  const prompt = `You help people pick the best AI tool for a task on a personal workflow-planning worksheet.
-Reply with ONLY a compact JSON object, no markdown, in this exact shape: {"tool": "<name>", "reason": "<one short sentence, under 15 words, lowercase start, no trailing period>"}.
-Prefer one of these tools when it genuinely fits: ${ALLOWED_TOOLS.join(', ')}. If none of them fit well, suggest the most fitting real AI tool instead.
-
-Task: "${task}"`;
+  const model = process.env.GEMINI_MODEL || 'gemini-flash-latest';
+  const prompt = `Task: "${task}"\nPick the single best AI tool for this task (prefer one of: ${ALLOWED_TOOLS.join(', ')}; otherwise name another real AI tool). Reply with ONLY this JSON, nothing else: {"tool":"<name>","reason":"<max 8 words, why>"}`;
 
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 9000);
+    const timeout = setTimeout(() => controller.abort(), 15000);
     const r = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${apiKey}`,
       {
@@ -35,7 +31,7 @@ Task: "${task}"`;
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.2, maxOutputTokens: 100 }
+          generationConfig: { temperature: 0.2, maxOutputTokens: 900 }
         }),
         signal: controller.signal
       }
