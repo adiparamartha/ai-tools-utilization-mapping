@@ -88,7 +88,7 @@
     background:#fff;border:1px solid var(--card-border);border-radius:18px;
     padding:22px;display:flex;flex-direction:column;
   }
-  .card-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+  .card-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;min-height:84px;}
   .step-badge{
     width:30px;height:30px;min-width:30px;border-radius:50%;
     color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;
@@ -107,21 +107,22 @@
   .list-title{
     text-align:center;font-weight:700;font-size:13px;
     background:var(--blue-light);border:1px solid var(--blue-border);
-    border-radius:8px;padding:8px;margin-bottom:12px;
-    display:flex;align-items:center;justify-content:center;gap:6px;
+    border-radius:8px;padding:8px;margin-bottom:12px;min-height:40px;
+    display:flex;align-items:center;justify-content:center;gap:6px;box-sizing:border-box;
   }
   .prompt-box{
     background:var(--green-light);border:1px solid var(--green-border);
     border-radius:8px;padding:10px 12px;text-align:center;font-weight:700;font-size:13px;
-    margin-bottom:12px;
+    margin-bottom:12px;min-height:40px;box-sizing:border-box;
+    display:flex;align-items:center;justify-content:center;
   }
   .col-head{
     display:flex;align-items:center;justify-content:space-between;
-    padding:0 2px;margin-bottom:8px;
+    padding:0 2px;margin-bottom:12px;min-height:40px;box-sizing:border-box;
   }
   .col-head span{font-size:12px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.04em;}
 
-  .row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+  .row{display:flex;align-items:center;gap:10px;margin-bottom:9px;min-height:36px;box-sizing:border-box;}
   .num{
     width:24px;height:24px;min-width:24px;border-radius:50%;color:#fff;
     font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;
