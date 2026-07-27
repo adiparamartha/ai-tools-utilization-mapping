@@ -118,10 +118,15 @@
     display:flex;align-items:center;justify-content:center;
   }
   .col-head{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 2px;margin-bottom:12px;min-height:40px;box-sizing:border-box;
+    display:flex;align-items:stretch;gap:8px;margin-bottom:12px;min-height:40px;box-sizing:border-box;
   }
-  .col-head span{font-size:12px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.04em;}
+  .col-head-box{
+    flex:1.15;background:var(--purple-light);border:1px solid var(--purple-border);
+    border-radius:8px;padding:8px 12px;min-height:40px;box-sizing:border-box;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+  }
+  .col-head-box:last-child{flex:1;}
+  .col-head-box span{font-size:12px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.04em;}
 
   .row{display:flex;align-items:center;gap:10px;margin-bottom:9px;min-height:36px;box-sizing:border-box;}
   .num{
@@ -313,8 +318,8 @@
         </div>
       </div>
       <div class="col-head">
-        <span>Task</span>
-        <span style="margin-right:6px;">Recommended AI Tool</span>
+        <div class="col-head-box"><span>Task</span></div>
+        <div class="col-head-box"><span>Recommended AI Tool</span></div>
       </div>
       <div id="step3"></div>
       <div class="tip">⭐ <div><b>Examples of AI Tools:</b>ChatGPT, Claude, Gemini, Perplexity, Notion AI, GrammarlyGO, Elicit, Consensus, Otter.ai, etc.</div></div>
