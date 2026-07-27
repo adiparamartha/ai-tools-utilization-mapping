@@ -54,7 +54,13 @@
   .btn-primary:hover{box-shadow:0 4px 14px rgba(15,23,42,.25);}
   .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--card-border);}
   .btn-ghost:hover{border-color:#c7cbd6;}
-  .btn-link{background:transparent;color:var(--sub);text-decoration:underline;padding:6px 4px;font-weight:500;}
+  .icon-btn{
+    appearance:none;border:1px solid var(--card-border);background:#fff;color:var(--sub);
+    cursor:pointer;width:26px;height:26px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;flex:none;
+    transition:background .12s ease, color .12s ease, border-color .12s ease;
+  }
+  .icon-btn:hover{background:var(--blue-light);color:var(--blue);border-color:var(--blue-border);}
 
   /* ---------- Header ---------- */
   header.hero{
@@ -234,7 +240,7 @@
 
   @media print{
     body{background:#fff;}
-    .topbar-actions, .btn-link{display:none !important;}
+    .topbar-actions, .icon-btn{display:none !important;}
     .wrap{padding:10px;max-width:100%;}
     .card, header.hero, .reflection{box-shadow:none;}
   }
@@ -257,7 +263,12 @@
   <div class="topbar">
     <div class="brand-tag">
       <span class="who">Prepared by <b id="whoName">—</b></span>
-      <button class="btn-link" id="editNameBtn">edit</button>
+      <button class="icon-btn" id="editNameBtn" title="Edit name" aria-label="Edit name">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+        </svg>
+      </button>
     </div>
     <div class="topbar-actions">
       <button class="btn btn-ghost" id="resetBtn">↺ Reset all</button>
