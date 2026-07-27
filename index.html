@@ -474,16 +474,49 @@
     suggestBtns[i].disabled = !val;
   }
 
+  async function fetchAISuggestion(taskText){
+    const controller = new AbortController();
+    const timer = setTimeout(()=> controller.abort(), 9000);
+    try{
+      const res = await fetch('/api/suggest-tool', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ task: taskText }),
+        signal: controller.signal
+      });
+      if(!res.ok) return null;
+      const data = await res.json();
+      if(!data || !data.tool) return null;
+      return { tool: data.tool, reason: data.reason || 'suggested by Gemini' };
+    }catch(e){
+      return null;
+    }finally{
+      clearTimeout(timer);
+    }
+  }
+
   suggestBtns.forEach((btn,i)=>{
-    btn.addEventListener('click', ()=>{
+    btn.addEventListener('click', async ()=>{
       const taskText = taskInputs[i].value.trim();
       if(!taskText){ taskInputs[i].focus(); toast('Fill in the task first'); return; }
-      const { tool, reason } = suggestToolFor(taskText);
+
+      btn.disabled = true;
+      const originalLabel = btn.textContent;
+      btn.textContent = '…';
+
+      const ai = await fetchAISuggestion(taskText);
+      const viaAI = !!ai;
+      const { tool, reason } = ai || suggestToolFor(taskText);
+
       toolInputs[i].value = tool;
       toolInputs[i].title = `Suggested because ${reason}.`;
       save();
       updateExportState();
-      toast(`Suggested ${tool} — ${reason}.`);
+
+      btn.textContent = originalLabel;
+      btn.disabled = !taskInputs[i].value.trim();
+
+      toast(viaAI ? `✨ Gemini suggests ${tool} — ${reason}` : `Suggested ${tool} — ${reason}.`);
     });
   });
 
