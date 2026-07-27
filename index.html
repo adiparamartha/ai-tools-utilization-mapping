@@ -385,6 +385,8 @@
   const step3El = document.getElementById('step3');
 
   const taskPlaceholder = (i)=> i===0 ? 'e.g. Summarize research papers for my thesis' : 'Type or write your task here...';
+  const mirrorPlaceholder = (i)=> i===0 ? 'Summarize research papers for my thesis' : 'Task from Step 1…';
+  const toolPlaceholder = (i)=> i===0 ? 'e.g. ChatGPT' : 'AI tool (e.g. ChatGPT, Notion AI…)';
 
   for(let i=0;i<ROWS;i++){
     const row = document.createElement('div');
@@ -407,9 +409,9 @@
     row3.className = 'row';
     row3.innerHTML = `<div class="num">${i+1}</div>
       <div class="match-row">
-        <div class="task-mirror empty" data-row="${i}">Task from Step 1…</div>
+        <div class="task-mirror empty" data-row="${i}">${mirrorPlaceholder(i)}</div>
         <div class="arrow">→</div>
-        <input class="tool-input" data-row="${i}" placeholder="AI tool (e.g. ChatGPT, Notion AI…)" />
+        <input class="tool-input" data-row="${i}" placeholder="${toolPlaceholder(i)}" />
       </div>`;
     step3El.appendChild(row3);
   }
@@ -424,7 +426,7 @@
     const val = taskInputs[i].value.trim();
     const m = mirrors[i];
     if(val){ m.textContent = val; m.classList.remove('empty'); }
-    else { m.textContent = 'Task from Step 1…'; m.classList.add('empty'); }
+    else { m.textContent = mirrorPlaceholder(i); m.classList.add('empty'); }
   }
 
   let saveTimer;
