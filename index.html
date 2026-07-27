@@ -73,7 +73,8 @@
   .hero-left p.sub{margin:0;color:var(--sub);font-size:15.5px;max-width:640px;}
   .howto{
     background:var(--green-light);border:1px solid var(--green-border);
-    border-radius:14px;padding:16px 20px;min-width:280px;max-width:360px;
+    border-radius:14px;padding:16px 20px;flex:1 1 280px;min-width:0;max-width:360px;
+    box-sizing:border-box;
   }
   .howto h4{margin:0 0 8px;color:#0f7a3d;font-size:14px;display:flex;align-items:center;gap:8px;}
   .howto ol{margin:0;padding-left:18px;font-size:13.5px;color:#2d3748;line-height:1.6;}
@@ -82,7 +83,7 @@
   .columns{
     display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px;
   }
-  @media (max-width:1050px){ .columns{grid-template-columns:1fr;} }
+  @media (max-width:1180px){ .columns{grid-template-columns:1fr;} }
 
   .card{
     background:#fff;border:1px solid var(--card-border);border-radius:18px;
@@ -139,8 +140,9 @@
   .task-input:focus{outline:2px solid var(--blue);outline-offset:1px;}
   .task-input::placeholder{color:#a8a29e;}
 
-  .checks{flex:1;display:flex;gap:14px;flex-wrap:wrap;}
-  .check{display:flex;align-items:center;gap:6px;font-size:12.5px;color:#374151;}
+  .checks{flex:1;display:flex;gap:10px;flex-wrap:wrap;}
+  .check{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#374151;white-space:nowrap;}
+  @media (min-width:1181px){ .checks{flex-wrap:nowrap;} }
   .check input{width:15px;height:15px;accent-color:var(--green);cursor:pointer;}
 
   .match-row{flex:1;display:flex;align-items:center;gap:8px;}
@@ -213,6 +215,14 @@
     opacity:0;pointer-events:none;transition:all .25s ease;z-index:60;
   }
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* Keep row 1..10 aligned across all three columns: once the 3-column
+     layout is active, force the header block and the label bar above the
+     rows to a shared height regardless of how each column's text wraps. */
+  @media (min-width:1181px){
+    .card-head{min-height:140px;}
+    .list-title,.prompt-box,.col-head{min-height:58px;}
+  }
 
   @media print{
     body{background:#fff;}
