@@ -51,6 +51,8 @@
   }
   .btn:active{transform:scale(0.97);}
   .btn-primary{background:var(--navy);color:#fff;}
+  .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none !important;}
+  .btn:disabled:active{transform:none;}
   .btn-primary:hover{box-shadow:0 4px 14px rgba(15,23,42,.25);}
   .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--card-border);}
   .btn-ghost:hover{border-color:#c7cbd6;}
@@ -382,11 +384,13 @@
   const step2El = document.getElementById('step2');
   const step3El = document.getElementById('step3');
 
+  const taskPlaceholder = (i)=> i===0 ? 'e.g. Summarize research papers for my thesis' : 'Type or write your task here...';
+
   for(let i=0;i<ROWS;i++){
     const row = document.createElement('div');
     row.className = 'row';
     row.innerHTML = `<div class="num">${i+1}</div>
-      <input class="task-input" data-row="${i}" placeholder="Type or write your task here..." />`;
+      <input class="task-input" data-row="${i}" placeholder="${taskPlaceholder(i)}" />`;
     step1El.appendChild(row);
 
     const row2 = document.createElement('div');
@@ -438,11 +442,24 @@
     }, 250);
   }
 
+  function canExport(){
+    const hasTask = taskInputs.some(i=> i.value.trim());
+    const hasCheck = checkboxes.some(c=> c.checked);
+    const hasTool = toolInputs.some(i=> i.value.trim());
+    return hasTask && hasCheck && hasTool;
+  }
+  function updateExportState(){
+    const btn = document.getElementById('exportBtn');
+    const ok = canExport();
+    btn.disabled = !ok;
+    btn.title = ok ? '' : 'Fill in at least one row in each of the 3 steps to export';
+  }
+
   taskInputs.forEach((inp,i)=>{
-    inp.addEventListener('input', ()=>{ syncMirror(i); save(); });
+    inp.addEventListener('input', ()=>{ syncMirror(i); save(); updateExportState(); });
   });
-  checkboxes.forEach(cb=> cb.addEventListener('change', save));
-  toolInputs.forEach(inp=> inp.addEventListener('input', save));
+  checkboxes.forEach(cb=> cb.addEventListener('change', ()=>{ save(); updateExportState(); }));
+  toolInputs.forEach(inp=> inp.addEventListener('input', ()=>{ save(); updateExportState(); }));
   reflectionEl.addEventListener('input', save);
 
   function load(){
@@ -492,6 +509,7 @@
   load();
   if(state.name){ whoName.textContent = state.name; gate.hidden = true; }
   else { openGate(); }
+  updateExportState();
 
   /* ---------- Reset ---------- */
   const resetGate = document.getElementById('resetGate');
@@ -504,6 +522,7 @@
     toolInputs.forEach(i=> i.value='');
     reflectionEl.value='';
     save();
+    updateExportState();
     resetGate.hidden = true;
     toast('Cleared. Fresh start!');
   });
