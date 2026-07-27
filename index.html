@@ -512,6 +512,21 @@
     }
   });
 
+  /* ---------- Equalize the three tip/example boxes ---------- */
+  function equalizeTipHeights(){
+    const tips = [...document.querySelectorAll('.tip')];
+    if(tips.length < 2) return;
+    tips.forEach(t=> t.style.minHeight='0px');
+    const max = Math.max(...tips.map(t=> t.getBoundingClientRect().height));
+    tips.forEach(t=> t.style.minHeight = max+'px');
+  }
+  equalizeTipHeights();
+  let tipResizeTimer;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(tipResizeTimer);
+    tipResizeTimer = setTimeout(equalizeTipHeights, 150);
+  });
+
 })();
 </script>
 </body>
