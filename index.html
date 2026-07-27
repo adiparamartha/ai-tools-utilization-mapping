@@ -222,6 +222,10 @@
   }
   .modal input:focus{outline:2px solid var(--blue);}
   .modal .btn-primary{width:100%;justify-content:center;padding:12px;}
+  .modal-actions{display:flex;gap:10px;}
+  .modal-actions .btn{flex:1;justify-content:center;padding:12px;}
+  .btn-danger{background:#dc2626;color:#fff;}
+  .btn-danger:hover{box-shadow:0 4px 14px rgba(220,38,38,.3);}
 
   #toast{
     position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
@@ -255,6 +259,18 @@
     <p>Enter your name so this workflow map is yours — it's saved automatically as you fill it in.</p>
     <input id="nameInput" type="text" placeholder="Your full name" autocomplete="name" maxlength="60">
     <button class="btn btn-primary" style="width:100%;justify-content:center;" id="startBtn">Start mapping →</button>
+  </div>
+</div>
+
+<div class="overlay" id="resetGate" hidden>
+  <div class="modal">
+    <div class="emoji">⚠️</div>
+    <h2>Reset everything?</h2>
+    <p>This clears all tasks, checkboxes, tools and your reflection. This cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="resetCancelBtn">Cancel</button>
+      <button class="btn btn-danger" id="resetConfirmBtn">Reset all</button>
+    </div>
   </div>
 </div>
 
@@ -478,13 +494,17 @@
   else { openGate(); }
 
   /* ---------- Reset ---------- */
-  document.getElementById('resetBtn').addEventListener('click', ()=>{
-    if(!confirm('Clear all tasks, checkboxes, tools and your reflection? This cannot be undone.')) return;
+  const resetGate = document.getElementById('resetGate');
+  document.getElementById('resetBtn').addEventListener('click', ()=>{ resetGate.hidden = false; });
+  document.getElementById('resetCancelBtn').addEventListener('click', ()=>{ resetGate.hidden = true; });
+  resetGate.addEventListener('click', e=>{ if(e.target === resetGate) resetGate.hidden = true; });
+  document.getElementById('resetConfirmBtn').addEventListener('click', ()=>{
     taskInputs.forEach((i,idx)=>{ i.value=''; syncMirror(idx); });
     checkboxes.forEach(c=> c.checked=false);
     toolInputs.forEach(i=> i.value='');
     reflectionEl.value='';
     save();
+    resetGate.hidden = true;
     toast('Cleared. Fresh start!');
   });
 
